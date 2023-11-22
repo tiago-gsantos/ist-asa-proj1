@@ -1,5 +1,31 @@
 #include <iostream>
-#include "Piece.h"
+
+class Piece{
+    int _a;
+    int _b;
+    int _value;
+
+public:
+    Piece(){}
+
+    Piece(int a, int b, int value){
+        _a = a;
+        _b = b;
+        _value = value;
+    }
+
+    int getA(){
+        return _a;
+    }
+    
+    int getB(){
+        return _b;
+    }
+
+    int getValue(){
+        return _value;
+    }
+};
 
 int obtainMaxSellValue(int X, int Y, Piece piecesToSell[], int numPieces);
 
@@ -22,14 +48,14 @@ int main(){
         piecesToSell[i] = Piece(a, b, value);
     }
 
-    std::cout << obtainMaxSellValue(X, Y, piecesToSell, n);
+    std::cout << obtainMaxSellValue(X, Y, piecesToSell, n) << '\n';
     
     return 0;
 }
 
 int obtainMaxSellValue(int X, int Y, Piece piecesToSell[], int numPieces){
     int maxValues[X + 1][Y + 1];
-    
+
     for(int i = 0; i <= X; i++){
         for(int j = 0; j <= Y; j++){
             maxValues[i][j] = 0;

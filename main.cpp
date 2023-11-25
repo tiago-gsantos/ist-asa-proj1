@@ -1,33 +1,13 @@
 #include <iostream>
+#include <vector>
 
-class Piece{
-    int _a;
-    int _b;
-    int _value;
-
-public:
-    Piece(){}
-
-    Piece(int a, int b, int value){
-        _a = a;
-        _b = b;
-        _value = value;
-    }
-
-    int getA(){
-        return _a;
-    }
-    
-    int getB(){
-        return _b;
-    }
-
-    int getValue(){
-        return _value;
-    }
+struct Piece{
+    int a;
+    int b;
+    int value;
 };
 
-int obtainMaxSellValue(int X, int Y, Piece piecesToSell[], int numPieces);
+int obtainMaxSellValue(int X, int Y, std::vector<Piece> piecesToSell, int numPieces);
 
 int main(){
     int X, Y, n;
@@ -35,17 +15,13 @@ int main(){
     std::cin >> X >> Y;
     std::cin.ignore();
     std::cin >> n;
-
-    Piece piecesToSell[n];
+    
+    std::vector<Piece> piecesToSell(n);
 
     for(int i = 0; i < n; i++){
-        int a, b, value;
-
-        std::cin >> a;
-        std::cin >> b;
-        std::cin >> value;
-
-        piecesToSell[i] = Piece(a, b, value);
+        std::cin >> piecesToSell[i].a;
+        std::cin >> piecesToSell[i].b;
+        std::cin >> piecesToSell[i].value;
     }
 
     std::cout << obtainMaxSellValue(X, Y, piecesToSell, n) << '\n';
@@ -53,21 +29,22 @@ int main(){
     return 0;
 }
 
-int obtainMaxSellValue(int X, int Y, Piece piecesToSell[], int numPieces){
-    int maxValues[X + 1][Y + 1];
-
+int obtainMaxSellValue(int X, int Y, std::vector<Piece> piecesToSell, int numPieces){
+    std::vector<std::vector<int>> maxValues(X+1, std::vector<int>(Y+1, 0));
+    /*    
     for(int i = 0; i <= X; i++){
         for(int j = 0; j <= Y; j++){
             maxValues[i][j] = 0;
         }
     }
+    */
 
     for(int row = 1; row <= X; row++){
         for(int col = 1; col <= Y; col++){
             for(int i = 0; i < numPieces; i++){
-                int a = piecesToSell[i].getA();
-                int b = piecesToSell[i].getB();
-                int value = piecesToSell[i].getValue();
+                int a = piecesToSell[i].a;
+                int b = piecesToSell[i].b;
+                int value = piecesToSell[i].value;
                 int maxValueNormalPiece = 0;
                 int maxValueRotatedPiece = 0;
                 

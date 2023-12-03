@@ -3,7 +3,7 @@
 #include <cmath>
 
 
-int obtainMaxSellValue(int X, int Y, std::vector<std::vector<int>>& piecesValues);
+int obtainMaxSellValue(int X, int Y, std::vector<std::vector<int>>& maxValues);
 int obtainMaxCutValue(int row, int col, std::vector<std::vector<int>>& maxValues);
 
 
@@ -17,7 +17,7 @@ int main(){
     X = std::min(firstSize, secondSize);
     Y = std::max(firstSize, secondSize);
     
-    std::vector<std::vector<int>> piecesValues(X+1, std::vector<int>(Y+1, 0));
+    std::vector<std::vector<int>> maxValues(X+1, std::vector<int>(Y+1, 0));
 
     for(int i = 0; i < n; i++){
         int a, b, value;
@@ -25,22 +25,20 @@ int main(){
         scanf("%d %d %d", &a, &b, &value);
 
         if(a <= X && b <= Y)
-            piecesValues[a][b] = std::max(value, piecesValues[a][b]);
+            maxValues[a][b] = std::max(value, maxValues[a][b]);
         if(a <= Y && b <= X)
-            piecesValues[b][a] = std::max(value, piecesValues[b][a]);
+            maxValues[b][a] = std::max(value, maxValues[b][a]);
     }
 
-    std::cout << obtainMaxSellValue(X, Y, piecesValues) << '\n';
+    std::cout << obtainMaxSellValue(X, Y, maxValues) << '\n';
     
     return 0;
 }
 
-int obtainMaxSellValue(int X, int Y, std::vector<std::vector<int>>& piecesValues){
-    std::vector<std::vector<int>> maxValues(X+1, std::vector<int>(Y+1, 0));
-
+int obtainMaxSellValue(int X, int Y, std::vector<std::vector<int>>& maxValues){
     for(int row = 1, colCounter = 0; row <= X; row++, colCounter++){
         for(int col = 1 + colCounter; col <= Y; col++){
-            maxValues[row][col] = std::max(piecesValues[row][col], obtainMaxCutValue(row, col, maxValues));
+            maxValues[row][col] = std::max(maxValues[row][col], obtainMaxCutValue(row, col, maxValues));
 
             if(col <= X)
                 maxValues[col][row] = maxValues[row][col];
